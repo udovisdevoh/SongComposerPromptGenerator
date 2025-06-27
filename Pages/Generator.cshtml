@@ -1,0 +1,150 @@
+﻿@page
+@model SongPromptGenerator.Pages.GeneratorModel
+@{
+    ViewData["Title"] = "Générateur de Prompt";
+}
+
+<h1>@ViewData["Title"]</h1>
+<p class="text-muted">Remplissez les champs ci-dessous pour créer un prompt détaillé pour une IA de composition musicale.</p>
+
+<hr />
+
+<form method="post">
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Contenu et Style</h3>
+            <div class="mb-3">
+                <label for="language" class="form-label">Langue</label>
+                <input class="form-control" list="language-options" id="language" asp-for="PromptRequest.Language" required>
+                <datalist id="language-options">
+                    @foreach (var lang in Model.Languages)
+                    {
+                        <option value="@lang"></option>
+                    }
+                </datalist>
+            </div>
+
+            <div class="mb-3">
+                <label for="genre" class="form-label">Genre Musical</label>
+                <input class="form-control" list="genre-options" id="genre" asp-for="PromptRequest.Genre" required>
+                <datalist id="genre-options">
+                    @foreach (var genre in Model.Genres)
+                    {
+                        <option value="@genre"></option>
+                    }
+                </datalist>
+            </div>
+
+            <div class="mb-3">
+                <label for="theme" class="form-label">Thème Principal</label>
+                <input class="form-control" list="theme-options" id="theme" asp-for="PromptRequest.Theme" required>
+                <datalist id="theme-options">
+                    @foreach (var theme in Model.Themes)
+                    {
+                        <option value="@theme"></option>
+                    }
+                </datalist>
+            </div>
+
+            <div class="mb-3">
+                <label for="lyrical-style" class="form-label">Style des Paroles</label>
+                <input class="form-control" list="lyrical-style-options" id="lyrical-style" asp-for="PromptRequest.LyricalStyle" required>
+                <datalist id="lyrical-style-options">
+                    @foreach (var style in Model.LyricalStyles)
+                    {
+                        <option value="@style"></option>
+                    }
+                </datalist>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="PromptRequest.GeneralDescription" class="form-label">Description générale de la chanson</label>
+                <textarea asp-for="PromptRequest.GeneralDescription" class="form-control" rows="4" placeholder="Ex: Une chanson sur la nostalgie d'un été passé au bord de la mer, avec un sentiment d'espoir pour l'avenir..."></textarea>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <h3>Harmonie (Facultatif)</h3>
+            <p class="text-muted small">Laissez vide pour laisser l'IA décider.</p>
+
+            <div class="row mb-3">
+                <div class="col">
+                    <label class="form-label">Tonalité (Fondamentale)</label>
+                    <input class="form-control" list="chord-options" asp-for="PromptRequest.RootChord" placeholder="Globale">
+                </div>
+                <div class="col">
+                    <label class="form-label">Mode</label>
+                    <input class="form-control" list="mode-options" asp-for="PromptRequest.RootMode" placeholder="Global">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col">
+                    <input class="form-control" list="chord-options" asp-for="PromptRequest.VerseChord" placeholder="Couplets (Verse)">
+                </div>
+                <div class="col">
+                    <input class="form-control" list="mode-options" asp-for="PromptRequest.VerseMode" placeholder="Couplets (Verse)">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col">
+                    <input class="form-control" list="chord-options" asp-for="PromptRequest.ChorusChord" placeholder="Refrains (Chorus)">
+                </div>
+                <div class="col">
+                    <input class="form-control" list="mode-options" asp-for="PromptRequest.ChorusMode" placeholder="Refrains (Chorus)">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col">
+                    <input class="form-control" list="chord-options" asp-for="PromptRequest.BridgeChord" placeholder="Pont (Bridge)">
+                </div>
+                <div class="col">
+                    <input class="form-control" list="mode-options" asp-for="PromptRequest.BridgeMode" placeholder="Pont (Bridge)">
+                </div>
+            </div>
+
+            <datalist id="chord-options">
+                @foreach (var chord in Model.Chords)
+                {
+                    <option value="@chord"></option>
+                }
+            </datalist>
+            <datalist id="mode-options">
+                @foreach (var mode in Model.Modes)
+                {
+                    <option value="@mode"></option>
+                }
+            </datalist>
+
+            <div class="form-check mt-4">
+                <input class="form-check-input" type="checkbox" asp-for="PromptRequest.UseModalMixture">
+                <label class="form-check-label" asp-for="PromptRequest.UseModalMixture">
+                    Utiliser la mixture modale / accords empruntés
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="text-center mt-4 mb-4">
+        <button type="submit" class="btn btn-success btn-lg">Générer le Prompt</button>
+    </div>
+</form>
+
+@if (!string.IsNullOrWhiteSpace(Model.GeneratedPrompt))
+{
+    <div class="card bg-light mt-5">
+        <div class="card-header">
+            <h3>Prompt Généré</h3>
+        </div>
+        <div class="card-body">
+            <pre style="white-space: pre-wrap; word-wrap: break-word; font-size: 1rem;"><code>@Model.GeneratedPrompt</code></pre>
+            <button class="btn btn-sm btn-outline-secondary mt-2" onclick="navigator.clipboard.writeText(`@Model.GeneratedPrompt.Replace("`", "\\`")`)">
+                Copier dans le presse-papier
+            </button>
+        </div>
+    </div>
+}
