@@ -116,7 +116,7 @@ namespace SongPromptGenerator.Pages
             promptBuilder.AppendLine($"Lorsque vous faites plusieurs chansons dans la même conversation, essayez que les paroles et la symbolique des parole soit originale par rapport à ce que vous aviez fait.");
 
             promptBuilder.AppendLine($"");
-            promptBuilder.AppendLine($"À la toute fin, génère un titre pour la chanson.");
+            promptBuilder.AppendLine($"À la toute fin, génère un titre pour la chanson. Le titre ne doit pas être sous la forme de 'Le blues du ...' ni 'La balade de ...'");
 
             GeneratedPrompt = promptBuilder.ToString();
 
