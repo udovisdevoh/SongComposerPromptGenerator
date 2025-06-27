@@ -1,0 +1,109 @@
+[Intro]
+(Ambiance lourde et planante. Une ligne de basse groovy en Ré, sur laquelle une guitare électrique avec un effet Uni-Vibe et un delay prononcé joue un riff bluesy qui utilise des notes en dehors de l'accord.)
+D F C G
+D Bbmaj7 Cmaj7 D
+
+[Verse 1]
+(Tonalité: D, avec une forte influence Mixolydienne et des emprunts modaux pour une couleur psychédélique.)
+D                      F
+Le palais du gouverneur su'a Grande Allée
+C                    G
+C't'un château de sable qui attend la marée
+D                    F
+Les lois qu'y signent, les grands décrets si forts
+C                     G
+C'est d'l'encre sympathique su' du papier qui s'endort
+D                   Bbmaj7
+On s'agenouille devant des drapeaux pis des trônes
+Cmaj7                  D
+Qui vont pourrir comme nos propres couronnes
+Bb                F
+Le pouvoir, c't'une "joke" que la poussière raconte
+G                        A
+Pour s'donner une raison de continuer le conte
+
+[Chorus]
+(Changement de tonalité et de dynamique vers Mi. Le son s'ouvre, devient plus brillant et affirmé, avec une couleur Lydienne (Fa# majeur) qui symbolise l'éveil.)
+E                  F#
+La seule affaire qui est vraie, c'est l'choix icitte
+C#m                   B
+L'étincelle qui dit "non" ou "asteure j'quitte"
+E                    F#
+Y'a pas d'autorité, y'a pas d'grand plan divin
+A                        E
+Juste le poids de ta main dans le vide du lendemain
+
+[Verse 2]
+(Retour à la lourdeur bluesy et psychédélique en Ré.)
+D                      F
+Ta job, ton hypothèque, ta routine de hamster
+C                      G
+C'est les barreaux rouillés d'un univers
+D                     F
+Que t'as bâti toi-même en suivant la recette
+C                      G
+Écrite par des fantômes su' une vieille cassette
+D                    Bbmaj7
+Mais chaque brique du mur, chaque maillon d'la chaîne
+Cmaj7                D
+Est faite de la même vapeur que ton oxygène
+Bb                F
+Tu peux passer au travers si t'arrêtes de croire
+G                         A
+Que le décor en carton est une fatalité noire
+
+[Chorus]
+(Le refrain en Mi Lydien revient, plus puissant et libérateur.)
+E                  F#
+La seule affaire qui est vraie, c'est l'choix icitte
+C#m                   B
+L'étincelle qui dit "non" ou "asteure j'quitte"
+E                    F#
+Y'a pas d'autorité, y'a pas d'grand plan divin
+A                        E
+Juste le poids de ta main dans le vide du lendemain
+
+[Bridge]
+(La musique bascule dans une section plus sombre et introspective en Sol mineur Dorien, créant un tunnel de réflexion métaphysique.)
+Gm                    F
+Mais même le "moi" qui choisit, c'est qui au juste?
+C                      Dm
+Un paquet d'atomes, un "pattern" de poussière illustre
+Gm                    F
+Cette étincelle de conscience, ce "je" si précieux
+Eb                      Dsus4     D
+S'torchera avec le temps comme les rois pis les dieux
+
+[Solo]
+(Le solo est un voyage progressif : il commence bluesy en Ré, devient plus modal et introspectif en Sol Dorien, puis explose en une envolée mélodique et libératrice en Mi Lydien.)
+(Partie 1: D Mixolydien/Blues)
+D F C G
+D Bb G A
+(Partie 2: G Dorien)
+Gm F C Dm
+Gm F Eb D
+(Partie 3: E Lydien)
+E F# C#m B
+E F# A E
+
+[Chorus]
+(Le refrain final est une explosion de puissance et d'acceptation, chanté avec une conviction sereine.)
+E                  F#
+La seule affaire qui est vraie, c'est l'choix icitte
+C#m                   B
+L'étincelle qui dit "non" ou "asteure j'quitte"
+E                    F#
+Y'a pas d'autorité, y'a pas d'grand plan divin
+A                        E
+Juste le poids de ta main dans le vide du lendemain
+
+[Outro]
+(La musique se déconstruit dans un jam psychédélique qui oscille entre les tonalités de Mi et de Ré. Les accords deviennent des nappes sonores, la guitare part en boucles de delay.)
+E D
+Le vide du lendemain...
+A G
+L'étincelle...
+E D
+Le choix icitte...
+A G E
+(Le son s'estompe lentement sur un accord de Mi majeur qui résonne, laissant une impression d'espace et de possibilité.)

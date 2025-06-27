@@ -110,6 +110,9 @@ namespace SongPromptGenerator.Pages
             }
 
             promptBuilder.AppendLine($"");
+            promptBuilder.AppendLine($"Lorsqu'un mode est spécifié, assurez-vous que les accords son typiques du mode.");
+
+            promptBuilder.AppendLine($"");
             promptBuilder.AppendLine($"À la toute fin, génère un titre pour la chanson.");
 
             GeneratedPrompt = promptBuilder.ToString();
