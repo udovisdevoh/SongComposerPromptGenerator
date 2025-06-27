@@ -109,6 +109,9 @@ namespace SongPromptGenerator.Pages
                 promptBuilder.AppendLine("- **Complexité Harmonique :** Utilise des techniques de mixture modale (accords empruntés à des modes parallèles) pour enrichir l'harmonie. Sois créatif.");
             }
 
+            promptBuilder.AppendLine($"");
+            promptBuilder.AppendLine($"À la toute fin, génère un titre pour la chanson.");
+
             GeneratedPrompt = promptBuilder.ToString();
 
             // Recharger les listes pour réafficher le formulaire correctement
