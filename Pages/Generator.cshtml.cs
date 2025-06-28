@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using SongPromptGenerator.Models;
 using SongPromptGenerator.Services;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,11 +13,9 @@ namespace SongPromptGenerator.Pages
     {
         private readonly IDataService _dataService;
 
-        // Propriété pour lier les données du formulaire entrant
         [BindProperty]
         public PromptRequest PromptRequest { get; set; }
 
-        // Propriétés pour afficher les options dans les menus déroulants
         public IEnumerable<string> Languages { get; set; }
         public IEnumerable<string> Genres { get; set; }
         public IEnumerable<string> Themes { get; set; }
@@ -24,7 +23,6 @@ namespace SongPromptGenerator.Pages
         public IEnumerable<string> Chords { get; set; }
         public IEnumerable<string> Modes { get; set; }
 
-        // Propriété pour stocker le résultat
         public string GeneratedPrompt { get; set; }
 
         public GeneratorModel(IDataService dataService)
@@ -34,25 +32,24 @@ namespace SongPromptGenerator.Pages
 
         public async Task OnGetAsync()
         {
-            // Charger toutes les données nécessaires pour afficher les formulaires
             Languages = await _dataService.GetLanguagesAsync();
             Genres = await _dataService.GetGenresAsync();
             Themes = await _dataService.GetThemesAsync();
             LyricalStyles = await _dataService.GetLyricalStylesAsync();
             Chords = await _dataService.GetChordsAsync();
-            // La ligne suivante a été corrigée
             Modes = await _dataService.GetModesAsync();
 
-            // Initialiser le modèle de requête pour éviter les erreurs de référence nulle
-            PromptRequest = new PromptRequest();
+            if (PromptRequest == null)
+            {
+                PromptRequest = new PromptRequest();
+            }
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
-                // Si le modèle n'est pas valide, recharger les données et réafficher la page
-                await OnGetAsync();
+                await LoadInitialData();
                 return Page();
             }
 
@@ -77,9 +74,25 @@ namespace SongPromptGenerator.Pages
             // --- Section Contenu ---
             promptBuilder.AppendLine("## CONTENU DE LA CHANSON");
             promptBuilder.AppendLine($"- **Langue :** {PromptRequest.Language}");
-            promptBuilder.AppendLine($"- **Genre Musical :** {PromptRequest.Genre}");
-            promptBuilder.AppendLine($"- **Thème Principal :** {PromptRequest.Theme}");
-            promptBuilder.AppendLine($"- **Style des Paroles :** {PromptRequest.LyricalStyle}");
+
+            if (PromptRequest.Genres?.Count > 1)
+            {
+                promptBuilder.AppendLine($"- **Genres Musicaux :** {string.Join(", ", PromptRequest.Genres)}. Tu peux les fusionner de manière créative.");
+            }
+            else if (PromptRequest.Genres?.Count == 1)
+            {
+                promptBuilder.AppendLine($"- **Genre Musical :** {PromptRequest.Genres.First()}");
+            }
+
+            if (PromptRequest.Themes?.Any() == true)
+            {
+                promptBuilder.AppendLine($"- **Thèmes Principaux :** {string.Join(", ", PromptRequest.Themes)}");
+            }
+            if (PromptRequest.LyricalStyles?.Any() == true)
+            {
+                promptBuilder.AppendLine($"- **Styles des Paroles :** {string.Join(", ", PromptRequest.LyricalStyles)}");
+            }
+
             if (!string.IsNullOrWhiteSpace(PromptRequest.GeneralDescription))
             {
                 promptBuilder.AppendLine($"- **Description Générale :** {PromptRequest.GeneralDescription}");
@@ -109,21 +122,28 @@ namespace SongPromptGenerator.Pages
                 promptBuilder.AppendLine("- **Complexité Harmonique :** Utilise des techniques de mixture modale (accords empruntés à des modes parallèles) pour enrichir l'harmonie. Sois créatif.");
             }
 
-            promptBuilder.AppendLine($"");
-            promptBuilder.AppendLine($"Lorsqu'un mode est spécifié, assurez-vous que les accords son typiques du mode.");
-
-            promptBuilder.AppendLine($"");
-            promptBuilder.AppendLine($"Lorsque vous faites plusieurs chansons dans la même conversation, essayez que les paroles et la symbolique des parole soit originale par rapport à ce que vous aviez fait.");
-
-            promptBuilder.AppendLine($"");
-            promptBuilder.AppendLine($"À la toute fin, génère un titre pour la chanson. Le titre ne doit pas être sous la forme de 'Le blues du ...' ni 'La balade de ...'");
+            promptBuilder.AppendLine();
+            promptBuilder.AppendLine("Lorsqu'un mode est spécifié, assurez-vous que les accords son typiques du mode.");
+            promptBuilder.AppendLine();
+            promptBuilder.AppendLine("Lorsque vous faites plusieurs chansons dans la même conversation, essayez que les paroles et la symbolique des parole soit originale par rapport à ce que vous aviez fait.");
+            promptBuilder.AppendLine();
+            promptBuilder.AppendLine("À la toute fin, génère un titre pour la chanson. Le titre ne doit pas être sous la forme de 'Le blues de...' ni 'La balade de...'.");
 
             GeneratedPrompt = promptBuilder.ToString();
 
-            // Recharger les listes pour réafficher le formulaire correctement
-            await OnGetAsync();
+            await LoadInitialData();
 
             return Page();
+        }
+
+        private async Task LoadInitialData()
+        {
+            Languages = await _dataService.GetLanguagesAsync();
+            Genres = await _dataService.GetGenresAsync();
+            Themes = await _dataService.GetThemesAsync();
+            LyricalStyles = await _dataService.GetLyricalStylesAsync();
+            Chords = await _dataService.GetChordsAsync();
+            Modes = await _dataService.GetModesAsync();
         }
     }
 }

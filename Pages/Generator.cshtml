@@ -4,6 +4,79 @@
     ViewData["Title"] = "Générateur de Prompt";
 }
 
+<style>
+    /* Styles pour le nouveau composant de sélection multiple */
+    .multi-select-container {
+        position: relative;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        padding: .375rem .75rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        min-height: calc(1.5em + .75rem + 2px);
+    }
+
+    .selected-tags {
+        display: inline-flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        align-items: center;
+    }
+
+    .tag {
+        background-color: #0d6efd;
+        color: white;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 0.9em;
+        display: flex;
+        align-items: center;
+    }
+
+    .remove-tag {
+        margin-left: 8px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .autocomplete-input {
+        border: none;
+        outline: none;
+        flex-grow: 1;
+        min-width: 150px;
+        padding: 0;
+    }
+
+        .autocomplete-input:focus {
+            box-shadow: none;
+        }
+
+    .suggestions-list {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        border: 1px solid #ced4da;
+        border-top: none;
+        border-radius: 0 0 .25rem .25rem;
+        z-index: 1000;
+        max-height: 200px;
+        overflow-y: auto;
+        display: none;
+    }
+
+    .suggestion-item {
+        padding: 8px 12px;
+        cursor: pointer;
+    }
+
+        .suggestion-item:hover {
+            background-color: #f0f0f0;
+        }
+</style>
+
 <h1>@ViewData["Title"]</h1>
 <p class="text-muted">Remplissez les champs ci-dessous pour créer un prompt détaillé pour une IA de composition musicale.</p>
 
@@ -14,8 +87,8 @@
         <div class="col-md-6">
             <h3>Contenu et Style</h3>
             <div class="mb-3">
-                <label for="language" class="form-label">Langue</label>
-                <input class="form-control" list="language-options" id="language" asp-for="PromptRequest.Language" required>
+                <label class="form-label">Langue (choix unique)</label>
+                <input class="form-control" list="language-options" asp-for="PromptRequest.Language" required>
                 <datalist id="language-options">
                     @foreach (var lang in Model.Languages)
                     {
@@ -25,36 +98,21 @@
             </div>
 
             <div class="mb-3">
-                <label for="genre" class="form-label">Genre Musical</label>
-                <input class="form-control" list="genre-options" id="genre" asp-for="PromptRequest.Genre" required>
-                <datalist id="genre-options">
-                    @foreach (var genre in Model.Genres)
-                    {
-                        <option value="@genre"></option>
-                    }
-                </datalist>
+                <label class="form-label">Genres Musicaux</label>
+                <div class="multi-select-container" id="genres-component" data-input-name="PromptRequest.Genres">
+                </div>
             </div>
 
             <div class="mb-3">
-                <label for="theme" class="form-label">Thème Principal</label>
-                <input class="form-control" list="theme-options" id="theme" asp-for="PromptRequest.Theme" required>
-                <datalist id="theme-options">
-                    @foreach (var theme in Model.Themes)
-                    {
-                        <option value="@theme"></option>
-                    }
-                </datalist>
+                <label class="form-label">Thèmes Principaux</label>
+                <div class="multi-select-container" id="themes-component" data-input-name="PromptRequest.Themes">
+                </div>
             </div>
 
             <div class="mb-3">
-                <label for="lyrical-style" class="form-label">Style des Paroles</label>
-                <input class="form-control" list="lyrical-style-options" id="lyrical-style" asp-for="PromptRequest.LyricalStyle" required>
-                <datalist id="lyrical-style-options">
-                    @foreach (var style in Model.LyricalStyles)
-                    {
-                        <option value="@style"></option>
-                    }
-                </datalist>
+                <label class="form-label">Styles des Paroles</label>
+                <div class="multi-select-container" id="lyrical-styles-component" data-input-name="PromptRequest.LyricalStyles">
+                </div>
             </div>
 
             <div class="mb-3">
@@ -77,52 +135,25 @@
                     <input class="form-control" list="mode-options" asp-for="PromptRequest.RootMode" placeholder="Global">
                 </div>
             </div>
-
             <div class="row mb-3">
-                <div class="col">
-                    <input class="form-control" list="chord-options" asp-for="PromptRequest.VerseChord" placeholder="Couplets (Verse)">
-                </div>
-                <div class="col">
-                    <input class="form-control" list="mode-options" asp-for="PromptRequest.VerseMode" placeholder="Couplets (Verse)">
-                </div>
+                <div class="col"><input class="form-control" list="chord-options" asp-for="PromptRequest.VerseChord" placeholder="Couplets (Verse)"></div>
+                <div class="col"><input class="form-control" list="mode-options" asp-for="PromptRequest.VerseMode" placeholder="Couplets (Verse)"></div>
             </div>
-
             <div class="row mb-3">
-                <div class="col">
-                    <input class="form-control" list="chord-options" asp-for="PromptRequest.ChorusChord" placeholder="Refrains (Chorus)">
-                </div>
-                <div class="col">
-                    <input class="form-control" list="mode-options" asp-for="PromptRequest.ChorusMode" placeholder="Refrains (Chorus)">
-                </div>
+                <div class="col"><input class="form-control" list="chord-options" asp-for="PromptRequest.ChorusChord" placeholder="Refrains (Chorus)"></div>
+                <div class="col"><input class="form-control" list="mode-options" asp-for="PromptRequest.ChorusMode" placeholder="Refrains (Chorus)"></div>
             </div>
-
             <div class="row mb-3">
-                <div class="col">
-                    <input class="form-control" list="chord-options" asp-for="PromptRequest.BridgeChord" placeholder="Pont (Bridge)">
-                </div>
-                <div class="col">
-                    <input class="form-control" list="mode-options" asp-for="PromptRequest.BridgeMode" placeholder="Pont (Bridge)">
-                </div>
+                <div class="col"><input class="form-control" list="chord-options" asp-for="PromptRequest.BridgeChord" placeholder="Pont (Bridge)"></div>
+                <div class="col"><input class="form-control" list="mode-options" asp-for="PromptRequest.BridgeMode" placeholder="Pont (Bridge)"></div>
             </div>
-
-            <datalist id="chord-options">
-                @foreach (var chord in Model.Chords)
-                {
-                    <option value="@chord"></option>
-                }
-            </datalist>
-            <datalist id="mode-options">
-                @foreach (var mode in Model.Modes)
-                {
-                    <option value="@mode"></option>
-                }
-            </datalist>
-
+            <datalist id="chord-options">@foreach (var chord in Model.Chords)
+            {<option value="@chord"></option>}</datalist>
+            <datalist id="mode-options">@foreach (var mode in Model.Modes)
+            {<option value="@mode"></option>}</datalist>
             <div class="form-check mt-4">
                 <input class="form-check-input" type="checkbox" asp-for="PromptRequest.UseModalMixture">
-                <label class="form-check-label" asp-for="PromptRequest.UseModalMixture">
-                    Utiliser la mixture modale / accords empruntés
-                </label>
+                <label class="form-check-label" asp-for="PromptRequest.UseModalMixture">Utiliser la mixture modale / accords empruntés</label>
             </div>
         </div>
     </div>
@@ -137,14 +168,35 @@
 @if (!string.IsNullOrWhiteSpace(Model.GeneratedPrompt))
 {
     <div class="card bg-light mt-5">
-        <div class="card-header">
-            <h3>Prompt Généré</h3>
-        </div>
+        <div class="card-header"><h3>Prompt Généré</h3></div>
         <div class="card-body">
             <pre style="white-space: pre-wrap; word-wrap: break-word; font-size: 1rem;"><code>@Model.GeneratedPrompt</code></pre>
-            <button class="btn btn-sm btn-outline-secondary mt-2" onclick="navigator.clipboard.writeText(`@Model.GeneratedPrompt.Replace("`", "\\`")`)">
-                Copier dans le presse-papier
-            </button>
+            <button class="btn btn-sm btn-outline-secondary mt-2" onclick="navigator.clipboard.writeText(this.previousElementSibling.textContent)">Copier dans le presse-papier</button>
         </div>
     </div>
+}
+
+@section Scripts {
+    <script src="~/js/multi-select-autocomplete.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialiser le composant pour les Genres en passant les valeurs déjà sélectionnées
+            const genresData = @Json.Serialize(Model.Genres);
+            const selectedGenres = @Json.Serialize(Model.PromptRequest.Genres);
+            const genresContainer = document.getElementById('genres-component');
+            new MultiSelectAutocomplete(genresContainer, genresData, selectedGenres);
+
+            // Initialiser le composant pour les Thèmes
+            const themesData = @Json.Serialize(Model.Themes);
+            const selectedThemes = @Json.Serialize(Model.PromptRequest.Themes);
+            const themesContainer = document.getElementById('themes-component');
+            new MultiSelectAutocomplete(themesContainer, themesData, selectedThemes);
+
+            // Initialiser le composant pour les Styles de Paroles
+            const stylesData = @Json.Serialize(Model.LyricalStyles);
+            const selectedStyles = @Json.Serialize(Model.PromptRequest.LyricalStyles);
+            const stylesContainer = document.getElementById('lyrical-styles-component');
+            new MultiSelectAutocomplete(stylesContainer, stylesData, selectedStyles);
+        });
+    </script>
 }

@@ -1,12 +1,17 @@
-﻿namespace SongPromptGenerator.Models
+﻿using System.Collections.Generic;
+
+namespace SongPromptGenerator.Models
 {
     public class PromptRequest
     {
         // Section principale
         public string Language { get; set; }
-        public string Genre { get; set; }
-        public string Theme { get; set; }
-        public string LyricalStyle { get; set; }
+
+        // Sélection multiple
+        public List<string> Genres { get; set; } = new List<string>();
+        public List<string> Themes { get; set; } = new List<string>();
+        public List<string> LyricalStyles { get; set; } = new List<string>();
+
         public string GeneralDescription { get; set; }
 
         // Section Harmonie
